@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Do You Love Me? 💌</title>
+
+<!-- Fonts: Poppins for main UI, Noto Sans Bengali for the Bengali reveal -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Noto+Sans+Bengali:wght@500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= PAGE 1 ================= -->
+  <section id="page1" class="page page-love">
+
+    <div class="box box-question">
+      <h1>Do YOU Love me</h1>
+    </div>
+
+    <div class="chase-zone" aria-hidden="true">
+      <span class="runner boy">🏃‍♂️</span>
+      <span class="runner girl">🏃‍♀️</span>
+    </div>
+
+    <div class="box box-buttons">
+      <div class="btn-row">
+        <button id="yesBtn" class="btn btn-yes" type="button">Yes</button>
+        <button id="noBtn" class="btn btn-no" type="button">No</button>
+      </div>
+      <p class="hint">tap yes 🙈</p>
+    </div>
+
+  </section>
+
+  <!-- ================= PAGE 2 ================= -->
+  <section id="page2" class="page page-space hidden" aria-hidden="true">
+
+    <canvas id="skyCanvas"></canvas>
+    <div id="flowerLayer" aria-hidden="true"></div>
+
+    <div class="center-text">
+      <p id="knewIt" class="knew-it">I knew it</p>
+      <p id="bengaliText" class="bengali-text hidden">আমি তোমাকে ভালোবাসি</p>
+    </div>
+
+    <p class="shake-hint" id="shakeHint">shake your phone ✨</p>
+
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
