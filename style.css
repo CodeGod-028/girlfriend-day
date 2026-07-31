@@ -74,43 +74,51 @@ html, body {
   flex: 1;
   width: 100%;
   max-width: 420px;
-  min-height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-height: 72px;
+  max-height: 96px;
+  overflow: hidden;
   pointer-events: none;
 }
 
+/* Each runner is positioned absolutely and slid left/right via JS (transform:
+   translateX). CSS only handles the smooth glide + the little running-leg
+   wiggle, so the "chase" feels organic instead of a fixed repeating loop. */
 .runner {
   position: absolute;
-  font-size: clamp(24px, 7vw, 32px);
+  left: 0;
+  bottom: 2px;
+  width: 30px;
+  height: 40px;
   will-change: transform;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.12));
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,0.12));
+  transform: translateX(0) scaleX(1);
+  transition: transform 1.8s cubic-bezier(0.45, 0, 0.4, 1);
 }
 
-.runner.boy {
-  animation: runBoy 6.5s ease-in-out infinite;
+.runner-girl {
+  width: 28px;
+  height: 40px;
 }
 
-.runner.girl {
-  animation: runGirl 7.2s ease-in-out infinite;
-  animation-delay: 0.4s;
+/* subtle running-leg / arm swing, independent of the horizontal glide */
+.runner .leg,
+.runner .arm {
+  animation: swingLimb 0.42s ease-in-out infinite;
+  transform-box: fill-box;
+}
+.runner .leg-front,
+.runner .arm-back {
+  animation-delay: 0.21s;
 }
 
-@keyframes runBoy {
-  0%   { transform: translateX(-70px) scaleX(1); }
-  22%  { transform: translateX(10px) scaleX(1); }
-  48%  { transform: translateX(60px) scaleX(-1); }
-  74%  { transform: translateX(-20px) scaleX(-1); }
-  100% { transform: translateX(-70px) scaleX(1); }
+@keyframes swingLimb {
+  0%, 100% { transform: rotate(18deg); }
+  50%      { transform: rotate(-18deg); }
 }
 
-@keyframes runGirl {
-  0%   { transform: translateX(70px) scaleX(-1); }
-  25%  { transform: translateX(-5px) scaleX(-1); }
-  52%  { transform: translateX(-65px) scaleX(1); }
-  78%  { transform: translateX(15px) scaleX(1); }
-  100% { transform: translateX(70px) scaleX(-1); }
+@media (min-width: 400px) {
+  .runner { width: 34px; height: 44px; }
+  .runner-girl { width: 32px; height: 44px; }
 }
 
 .box-buttons {

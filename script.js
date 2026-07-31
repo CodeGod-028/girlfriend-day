@@ -72,6 +72,60 @@
 
   yesBtn.addEventListener('click', goToPage2);
 
+  /* =========================================================
+     PAGE 1 — TINY BOY & GIRL CHASE ANIMATION (SVG)
+     Confined entirely to .chase-zone, between the two boxes.
+  ========================================================= */
+  const chaseZone = document.querySelector('.chase-zone');
+  const runnerBoy = document.querySelector('.runner-boy');
+  const runnerGirl = document.querySelector('.runner-girl');
+
+  function startRunner(el, opts) {
+    if (!el || !chaseZone) return;
+    let currentX = opts.startX;
+    el.style.transform = `translateX(${currentX}px) scaleX(1)`;
+
+    function nextMove() {
+      const zoneWidth = chaseZone.clientWidth;
+      const elWidth = el.offsetWidth || 30;
+      const maxX = Math.max(4, zoneWidth - elWidth - 4);
+
+      // occasionally just pause for a beat (feels more alive than nonstop running)
+      const willPause = Math.random() < 0.2;
+
+      let targetX = Math.random() * maxX;
+      // keep some minimum travel distance so it reads as "running", not twitching
+      if (Math.abs(targetX - currentX) < zoneWidth * 0.25) {
+        targetX = targetX > currentX
+          ? Math.min(maxX, currentX + zoneWidth * 0.35)
+          : Math.max(0, currentX - zoneWidth * 0.35);
+      }
+
+      const direction = targetX >= currentX ? 1 : -1;
+      const distance = Math.abs(targetX - currentX);
+      const duration = prefersReducedMotion
+        ? 3
+        : Math.max(0.9, distance / opts.speed);
+
+      el.style.transitionDuration = duration + 's';
+      el.style.transform = `translateX(${targetX}px) scaleX(${direction})`;
+      currentX = targetX;
+
+      const pause = willPause ? 500 + Math.random() * 700 : 120 + Math.random() * 400;
+      setTimeout(nextMove, duration * 1000 + pause);
+    }
+
+    setTimeout(nextMove, opts.initialDelay);
+  }
+
+  if (chaseZone && runnerBoy && runnerGirl) {
+    // give layout a tick to settle so clientWidth is accurate
+    requestAnimationFrame(() => {
+      startRunner(runnerBoy, { startX: 4, speed: 55, initialDelay: 300 });
+      startRunner(runnerGirl, { startX: chaseZone.clientWidth * 0.5, speed: 48, initialDelay: 900 });
+    });
+  }
+
   function goToPage2() {
     // iOS requires requesting motion permission inside a direct user gesture.
     requestMotionPermission();
